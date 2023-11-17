@@ -2,7 +2,7 @@
 
 namespace ProjectRPS.Hubs;
 
-public class ChatHub : Hub
+public partial class ChatHub : Hub
 {
     public async Task SendMessage(string message)
     {
