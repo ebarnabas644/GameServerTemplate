@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Cors.Infrastructure;
+using ProjectRPS;
+using ProjectRPS.Core;
 using ProjectRPS.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddGameLoop();
 
 var app = builder.Build();
 
@@ -33,5 +35,9 @@ app.UseCors(options =>
         .WithOrigins("http://localhost:5173");
 });
 app.MapControllers();
-app.MapHub<ChatHub>("chatHub");
+app.MapHub<MainHub>("mainHub");
+
+var loop = app.Services.GetService<IGameLoop>();
+
+loop.Start();
 app.Run();
