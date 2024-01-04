@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddGameLoop();
+builder.Services.AddSignalRHub();
 
 var app = builder.Build();
 
@@ -19,7 +20,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseHttpsRedirection();
@@ -35,7 +40,7 @@ app.UseCors(options =>
         .WithOrigins("http://localhost:5173");
 });
 app.MapControllers();
-app.MapHub<MainHub>("mainHub");
+app.MapHub<MainHub>("chatHub");
 
 var loop = app.Services.GetService<IGameLoop>();
 

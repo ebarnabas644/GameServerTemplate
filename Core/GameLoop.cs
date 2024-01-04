@@ -1,4 +1,7 @@
-﻿namespace ProjectRPS.Core;
+﻿using Microsoft.AspNetCore.SignalR;
+using ProjectRPS.Hubs;
+
+namespace ProjectRPS.Core;
 
 public interface IGameLoop
 {
@@ -9,14 +12,16 @@ public interface IGameLoop
 public class GameLoop : IGameLoop
 {
     private bool _isRunning;
-    private const int _tickRate = 60;
+    private const int _tickRate = 30;
     private readonly TimeSpan _tickInterval;
     private readonly ILogger<GameLoop> _logger;
+    private readonly IHubContext<MainHub> _mainHub;
 
-    public GameLoop(ILogger<GameLoop> logger)
+    public GameLoop(ILogger<GameLoop> logger, IHubContext<MainHub> mainHub)
     {
         _tickInterval = TimeSpan.FromSeconds(1.0 / _tickRate);
         _logger = logger;
+        _mainHub = mainHub;
     }
 
     public void Start()
@@ -59,6 +64,6 @@ public class GameLoop : IGameLoop
 
     private void Update()
     {
-        ;
+        _mainHub.Clients.All.SendAsync("state-update", "Game update tick");
     }
 }
