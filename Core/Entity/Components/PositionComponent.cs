@@ -1,15 +1,16 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using ProjectRPS.Core.Models;
+using Vector = ProjectRPS.Core.Models.Vector;
 
 namespace ProjectRPS.Core.Components;
 
 public class PositionComponent : Component
 {
-    public Position Position;
+    public Vector Vector;
 
     public PositionComponent()
     {
-        Position = new Position();
+        Vector = new Vector();
     }
 }

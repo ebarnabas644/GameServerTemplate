@@ -4,10 +4,10 @@ namespace ProjectRPS.Core.Components;
 
 public class VelocityComponent
 {
-    public Position Velocity;
+    public Vector Velocity;
 
     public VelocityComponent()
     {
-        Velocity = new Position();
+        Velocity = new Vector();
     }
 }

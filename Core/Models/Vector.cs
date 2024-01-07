@@ -2,7 +2,7 @@
 
 namespace ProjectRPS.Core.Models;
 
-public class Position
+public class Vector
 {
     public double X
     {
