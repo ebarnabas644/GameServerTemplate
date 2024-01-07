@@ -13,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddGameLoop();
 builder.Services.AddSignalRHub();
+builder.Services.AddMessageSender();
+builder.Services.AddMessageProcessors();
 
 var app = builder.Build();
 
@@ -40,7 +42,7 @@ app.UseCors(options =>
         .WithOrigins("http://localhost:5173");
 });
 app.MapControllers();
-app.MapHub<MainHub>("chatHub");
+app.MapHub<MainHub>("mainHub");
 
 var loop = app.Services.GetService<IGameLoop>();
 
