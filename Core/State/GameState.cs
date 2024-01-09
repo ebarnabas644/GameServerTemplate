@@ -1,4 +1,6 @@
-﻿namespace ProjectRPS.Core.State;
+﻿using ProjectRPS.Core.Components;
+
+namespace ProjectRPS.Core.State;
 
 public class GameState
 {
@@ -11,7 +13,9 @@ public class GameState
 
     public void CreatePlayerEntity(string id)
     {
-        
-        
+        var entity = new Entity();
+        entity.AddComponent("Position", new PositionComponent());
+        entity.AddComponent("Velocity", new VelocityComponent());
+        _entities.Add(entity);
     }
 }
