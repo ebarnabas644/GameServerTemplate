@@ -2,7 +2,7 @@
 
 namespace ProjectRPS.Core.Components;
 
-public class VelocityComponent
+public class VelocityComponent : Component
 {
     public Vector Velocity;
 
