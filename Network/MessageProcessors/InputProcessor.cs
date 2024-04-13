@@ -4,7 +4,7 @@ public class InputProcessor : IMessageProcessor
 {
     public async Task Process(object data)
     {
-        
+        Console.WriteLine("input received");
     }
 
     public bool IsTypeOf(string type)
