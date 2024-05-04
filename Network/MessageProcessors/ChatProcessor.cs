@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
+using ProjectRPS.Hubs.Models;
 
 namespace ProjectRPS.Hubs.MessageProcessors;
 
@@ -11,9 +13,18 @@ public class ChatProcessor : IMessageProcessor
         _messageHub = messageHub;
     }
 
-    public async Task Process(object data)
+    public async Task Process(string data)
     {
-        await _messageHub.Clients.All.SendAsync("message", data);
+        try
+        {
+            var message = data;
+            Console.WriteLine($"Chat message: {message}");
+            await _messageHub.Clients.All.SendAsync("message", data);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 
     public bool IsTypeOf(string type)

@@ -2,6 +2,6 @@
 
 public interface IMessageProcessor
 {
-    Task Process(object data);
+    Task Process(string data);
     bool IsTypeOf(string type);
 }

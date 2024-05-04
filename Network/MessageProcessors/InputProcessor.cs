@@ -2,9 +2,9 @@
 
 public class InputProcessor : IMessageProcessor
 {
-    public async Task Process(object data)
+    public async Task Process(string data)
     {
-        Console.WriteLine("input received");
+        //Console.WriteLine("input received");
     }
 
     public bool IsTypeOf(string type)
