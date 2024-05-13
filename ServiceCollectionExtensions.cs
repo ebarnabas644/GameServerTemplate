@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using ProjectRPS.Core;
+using ProjectRPS.Core.State;
 using ProjectRPS.Hubs;
 using ProjectRPS.Hubs.MessageProcessors;
 
@@ -32,6 +33,13 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IMessageProcessor, InputProcessor>();
         services.AddTransient<IMessageProcessor, ChatProcessor>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddGameState(this IServiceCollection services)
+    {
+        services.AddSingleton<IGameState, GameState>();
 
         return services;
     }

@@ -19,7 +19,6 @@ public partial class MainHub : Hub
     {
         var id = Context.ConnectionId;
         _logger.LogInformation($"Player connected with id: {id}");
-        await Clients.Client(Context.ConnectionId).SendAsync("initial", "Hello there");
     }
 
     public async Task SendUpdateMessage(string topic, string message)

@@ -2,13 +2,20 @@
 
 namespace ProjectRPS.Core.State;
 
-public class GameState
+public interface IGameState
+{
+    void CreatePlayerEntity(string id);
+    List<Entity> GetGameState();
+}
+
+public class GameState : IGameState
 {
     private List<Entity> _entities;
 
     public GameState()
     {
         _entities = new List<Entity>();
+        CreatePlayerEntity("test");
     }
 
     public void CreatePlayerEntity(string id)
@@ -17,5 +24,10 @@ public class GameState
         entity.AddComponent("Position", new PositionComponent());
         entity.AddComponent("Velocity", new VelocityComponent());
         _entities.Add(entity);
+    }
+
+    public List<Entity> GetGameState()
+    {
+        return _entities;
     }
 }

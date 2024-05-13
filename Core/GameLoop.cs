@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
+using ProjectRPS.Core.DTOs;
+using ProjectRPS.Core.State;
 using ProjectRPS.Hubs;
 
 namespace ProjectRPS.Core;
@@ -16,12 +19,14 @@ public class GameLoop : IGameLoop
     private readonly TimeSpan _tickInterval;
     private readonly ILogger<GameLoop> _logger;
     private readonly IMessageSender _messageSender;
+    private readonly IGameState _gameState;
 
-    public GameLoop(ILogger<GameLoop> logger, IMessageSender messageSender)
+    public GameLoop(ILogger<GameLoop> logger, IMessageSender messageSender, IGameState gameState)
     {
         _tickInterval = TimeSpan.FromSeconds(1.0 / _tickRate);
         _logger = logger;
         _messageSender = messageSender;
+        _gameState = gameState;
     }
 
     public void Start()
@@ -64,6 +69,13 @@ public class GameLoop : IGameLoop
 
     private void Update()
     {
-        //_messageSender.SendMessage("state-update", "Game tick update");
+        var state = _gameState.GetGameState();
+        var dtos = new List<EntityDTO>();
+        foreach (var entity in state)
+        {
+            dtos.Add(new EntityDTO(entity));
+        }
+        
+        _messageSender.SendMessage("state-update",   JsonSerializer.Serialize(dtos));
     }
 }
