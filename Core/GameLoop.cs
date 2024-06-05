@@ -38,6 +38,7 @@ public class GameLoop : IGameLoop
         {
             Name = "GameLoopThread"
         };
+        gameLoopThread.IsBackground = true;
         
         gameLoopThread.Start();
         _logger.LogInformation("Game loop running");
