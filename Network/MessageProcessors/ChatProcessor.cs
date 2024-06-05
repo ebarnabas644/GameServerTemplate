@@ -6,11 +6,11 @@ namespace ProjectRPS.Hubs.MessageProcessors;
 
 public class ChatProcessor : IMessageProcessor
 {
-    private IHubContext<MainHub> _messageHub;
+    private IMessageSender _messageSender;
 
-    public ChatProcessor(IHubContext<MainHub> messageHub)
+    public ChatProcessor(IMessageSender messageSender)
     {
-        _messageHub = messageHub;
+        _messageSender = messageSender;
     }
 
     public async Task Process(string data)
@@ -19,7 +19,7 @@ public class ChatProcessor : IMessageProcessor
         {
             var message = data;
             Console.WriteLine($"Chat message: {message}");
-            await _messageHub.Clients.All.SendAsync("message", data);
+            await _messageSender.SendMessage("message", data);
         }
         catch(Exception ex)
         {
