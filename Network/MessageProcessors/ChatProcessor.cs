@@ -7,10 +7,12 @@ namespace ProjectRPS.Hubs.MessageProcessors;
 public class ChatProcessor : IMessageProcessor
 {
     private IMessageSender _messageSender;
+    private readonly ILogger<ChatProcessor> _logger;
 
-    public ChatProcessor(IMessageSender messageSender)
+    public ChatProcessor(ILogger<ChatProcessor> logger, IMessageSender messageSender)
     {
         _messageSender = messageSender;
+        _logger = logger;
     }
 
     public async Task Process(string data)
@@ -23,7 +25,7 @@ public class ChatProcessor : IMessageProcessor
         }
         catch(Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError($"Error occured during chat message processing: {ex.Message}");
         }
     }
 
