@@ -9,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddGameState();
+builder.Services.AddGameSystems();
 builder.Services.AddGameLoop();
 builder.Services.AddSignalRHub();
 builder.Services.AddMessageSender();

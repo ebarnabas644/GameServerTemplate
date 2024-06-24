@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using ProjectRPS.Core;
 using ProjectRPS.Core.State;
+using ProjectRPS.Core.Systems;
 using ProjectRPS.Hubs;
 using ProjectRPS.Hubs.MessageProcessors;
 
@@ -40,6 +41,13 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddGameState(this IServiceCollection services)
     {
         services.AddSingleton<IGameState, GameState>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddGameSystems(this IServiceCollection services)
+    {
+        services.AddSingleton<ISystem, VelocitySystem>();
 
         return services;
     }
