@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using ProjectRPS.Core.DTOs;
 using ProjectRPS.Core.State;
+using ProjectRPS.Core.Systems;
 using ProjectRPS.Hubs;
 
 namespace ProjectRPS.Core;
@@ -20,13 +21,15 @@ public class GameLoop : IGameLoop
     private readonly ILogger<GameLoop> _logger;
     private readonly IMessageSender _messageSender;
     private readonly IGameState _gameState;
+    private readonly IEnumerable<ISystem> _systems;
 
-    public GameLoop(ILogger<GameLoop> logger, IMessageSender messageSender, IGameState gameState)
+    public GameLoop(ILogger<GameLoop> logger, IMessageSender messageSender, IGameState gameState, IEnumerable<ISystem> systems)
     {
         _tickInterval = TimeSpan.FromSeconds(1.0 / _tickRate);
         _logger = logger;
         _messageSender = messageSender;
         _gameState = gameState;
+        _systems = systems;
     }
 
     public void Start()
@@ -70,6 +73,11 @@ public class GameLoop : IGameLoop
 
     private void Update()
     {
+        foreach (var system in _systems)
+        {
+            system.Process();
+        }
+        
         var state = _gameState.GetGameState();
         var dtos = new List<EntityDTO>();
         foreach (var entity in state)
