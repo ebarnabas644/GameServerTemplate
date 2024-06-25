@@ -23,7 +23,8 @@ public class InputProcessor : IMessageProcessor
         if (player != null)
         {
             var velocity = player.GetComponent("Velocity") as VelocityComponent;
-            velocity.Velocity.X += 1;
+            var pos = player.GetComponent("Position") as PositionComponent;
+            pos.Vector.X += 50;
         }
         _logger.LogInformation($"Input received: {string.Join(',', parsed.Select(x => x.Input))}");
     }
