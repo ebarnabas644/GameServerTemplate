@@ -39,6 +39,6 @@ public partial class MainHub : Hub
     public async Task ClientMessage(Message message)
     {
         var processor = _messageProcessors.FirstOrDefault(x => x.IsTypeOf(message.Type));
-        processor?.Process(message.Data);
+        processor?.Process(message.Data, Context.ConnectionId);
     }
 }
