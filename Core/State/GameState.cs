@@ -4,7 +4,8 @@ namespace ProjectRPS.Core.State;
 
 public interface IGameState
 {
-    void CreatePlayerEntity(string id);
+    void CreatePlayerEntity(string? connectionId);
+    void DeletePlayerEntity(string connectionId);
     List<Entity> GetGameState();
 }
 
@@ -15,15 +16,32 @@ public class GameState : IGameState
     public GameState()
     {
         _entities = new List<Entity>();
-        CreatePlayerEntity("test");
     }
 
-    public void CreatePlayerEntity(string id)
+    public void CreatePlayerEntity(string? connectionId)
     {
         var entity = new Entity();
-        entity.AddComponent("Position", new PositionComponent());
+        var positionComponent = new PositionComponent();
+        var random = new Random();
+        positionComponent.Vector.X = random.Next() % 500;
+        positionComponent.Vector.Y = random.Next() % 500;
+        entity.AddComponent("Position", positionComponent);
         entity.AddComponent("Velocity", new VelocityComponent());
+        
+        if (connectionId != null)
+        {
+            entity.ConnectionId = connectionId;
+        }
         _entities.Add(entity);
+    }
+
+    public void DeletePlayerEntity(string connectionId)
+    {
+        var entityToRemove = _entities.FirstOrDefault(x => x.ConnectionId == connectionId);
+        if (entityToRemove != null)
+        {
+            _entities.Remove(entityToRemove);
+        }
     }
 
     public List<Entity> GetGameState()
