@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using ProjectRPS.Core.State;
 using ProjectRPS.Hubs.MessageProcessors;
 using ProjectRPS.Hubs.Models;
 
@@ -8,17 +9,26 @@ public partial class MainHub : Hub
 {
     private ILogger<MainHub> _logger;
     private IEnumerable<IMessageProcessor> _messageProcessors;
+    private IGameState _gameState;
 
-    public MainHub(ILogger<MainHub> logger, IEnumerable<IMessageProcessor> messageProcessors)
+    public MainHub(ILogger<MainHub> logger, IEnumerable<IMessageProcessor> messageProcessors, IGameState gameState)
     {
         _logger = logger;
         _messageProcessors = messageProcessors;
+        _gameState = gameState;
     }
     
     public override async Task OnConnectedAsync()
     {
-        var id = Context.ConnectionId;
-        _logger.LogInformation($"Player connected with id: {id}");
+        var connectionId = Context.ConnectionId;
+        _gameState.CreatePlayerEntity(connectionId);
+        _logger.LogInformation($"Player connected with id: {connectionId}");
+    }
+
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        _gameState.DeletePlayerEntity(Context.ConnectionId);
+        _logger.LogInformation($"Player disconnected with id: {Context.ConnectionId}");
     }
 
     public async Task SendUpdateMessage(string topic, string message)
