@@ -4,10 +4,13 @@ namespace ProjectRPS.Core;
 
 public class Entity
 {
+    public Guid Id { get; }
+    public string? ConnectionId { get; set; }
     private readonly Dictionary<string, Component> _components;
 
     public Entity()
     {
+        Id = Guid.NewGuid();
         _components = new Dictionary<string, Component>();
     }
 
