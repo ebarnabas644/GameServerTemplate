@@ -15,7 +15,7 @@ public class ChatProcessor : IMessageProcessor
         _logger = logger;
     }
 
-    public async Task Process(string data)
+    public async Task Process(string data, string connectionId)
     {
         try
         {

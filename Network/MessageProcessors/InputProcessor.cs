@@ -16,7 +16,7 @@ public class InputProcessor : IMessageProcessor
         _gameState = gameState;
     }
     
-    public async Task Process(string data)
+    public async Task Process(string data, string connectionId)
     {
         var parsed = JsonSerializer.Deserialize<List<KeyInput>>(data);
         var player = _gameState.GetGameState().FirstOrDefault();
