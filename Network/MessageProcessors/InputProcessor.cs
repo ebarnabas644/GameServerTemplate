@@ -19,7 +19,7 @@ public class InputProcessor : IMessageProcessor
     public async Task Process(string data, string connectionId)
     {
         var parsed = JsonSerializer.Deserialize<List<KeyInput>>(data);
-        var player = _gameState.GetGameState().FirstOrDefault();
+        var player = _gameState.GetGameState().FirstOrDefault(x => x.ConnectionId == connectionId);
         if (player != null)
         {
             var velocity = player.GetComponent("Velocity") as VelocityComponent;
