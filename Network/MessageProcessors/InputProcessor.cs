@@ -24,8 +24,35 @@ public class InputProcessor : IMessageProcessor
         {
             var velocity = player.GetComponent("Velocity") as VelocityComponent;
             var pos = player.GetComponent("Position") as PositionComponent;
-            pos.Vector.X += 50;
+            velocity.Velocity.X = 0;
+            velocity.Velocity.Y = 0;
+            foreach (var key in parsed)
+            {
+                if (key.Input == "rightMoveCommand")
+                {
+                    velocity.Velocity.X = 10;
+                }
+                else if (key.Input == "leftMoveCommand")
+                {
+                    velocity.Velocity.X = -10;
+                }
+                else if (key.Input == "downMoveCommand")
+                {
+                    velocity.Velocity.Y = 10;
+                }
+                else if (key.Input == "upMoveCommand")
+                {
+                    velocity.Velocity.Y = -10;
+                }
+            }
         }
+
+        /*if (player != null)
+        {
+            var velocity = player.GetComponent("Velocity") as VelocityComponent;
+            var pos = player.GetComponent("Position") as PositionComponent;
+            pos.Vector.X += 50;
+        }*/
         _logger.LogInformation($"Input received: {string.Join(',', parsed.Select(x => x.Input))}");
     }
 
