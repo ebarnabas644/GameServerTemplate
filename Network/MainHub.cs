@@ -21,7 +21,8 @@ public partial class MainHub : Hub
     public override async Task OnConnectedAsync()
     {
         var connectionId = Context.ConnectionId;
-        _gameState.CreatePlayerEntity(connectionId);
+        var id = _gameState.CreatePlayerEntity(connectionId);
+        await Clients.Client(connectionId).SendAsync("playerCreated", id);
         _logger.LogInformation($"Player connected with id: {connectionId}");
     }
 
