@@ -48,6 +48,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddGameSystems(this IServiceCollection services)
     {
         services.AddSingleton<ISystem, VelocitySystem>();
+        services.AddSingleton<ISystem, StateSystem>();
 
         return services;
     }
