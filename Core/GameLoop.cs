@@ -22,6 +22,7 @@ public class GameLoop : IGameLoop
     private readonly IMessageSender _messageSender;
     private readonly IGameState _gameState;
     private readonly IEnumerable<ISystem> _systems;
+    private int _messageNumber;
 
     public GameLoop(ILogger<GameLoop> logger, IMessageSender messageSender, IGameState gameState, IEnumerable<ISystem> systems)
     {
@@ -30,6 +31,7 @@ public class GameLoop : IGameLoop
         _messageSender = messageSender;
         _gameState = gameState;
         _systems = systems;
+        _messageNumber = 0;
     }
 
     public void Start()
@@ -77,14 +79,19 @@ public class GameLoop : IGameLoop
         {
             system.Process();
         }
-        
+
+        _messageNumber++;
         var state = _gameState.GetGameState();
         var dtos = new List<EntityDTO>();
         foreach (var entity in state)
         {
             dtos.Add(new EntityDTO(entity));
         }
+
+        var stateToSend = new StateToSend();
+        stateToSend.Entities = dtos.ToArray();
+        stateToSend.MessageNumber = _messageNumber;
         
-        _messageSender.SendMessage("state-update",   JsonSerializer.Serialize(dtos));
+        _messageSender.SendMessage("state-update",   JsonSerializer.Serialize(stateToSend));
     }
 }

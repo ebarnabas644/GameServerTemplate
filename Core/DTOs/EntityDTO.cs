@@ -8,6 +8,7 @@ public class EntityDTO
     public Guid Id { get; set; }
     public Vector Position { get; set; }
     public string State { get; set; }
+    public string Sprite { get; set; }
 
     public EntityDTO(Entity entity)
     {
@@ -16,5 +17,7 @@ public class EntityDTO
         Position = position.Vector;
         var state = entity.GetComponent("State") as StateComponent;
         State = state.State;
+        var sprite = entity.GetComponent("Sprite") as SpriteComponent;
+        Sprite = sprite.Sprite;
     }
 }

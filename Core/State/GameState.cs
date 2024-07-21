@@ -27,7 +27,8 @@ public class GameState : IGameState
         positionComponent.Vector.Y = random.Next() % 500;
         entity.AddComponent("Position", positionComponent);
         entity.AddComponent("Velocity", new VelocityComponent());
-        entity.AddComponent("State", new StateComponent() { State = "Idle" });
+        entity.AddComponent("State", new StateComponent { State = "Idle" });
+        entity.AddComponent("Sprite", new SpriteComponent { Sprite = "player.png" });
         
         if (connectionId != null)
         {
