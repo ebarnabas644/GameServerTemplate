@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using ProjectRPS.Core;
+using ProjectRPS.Core.Builders;
 using ProjectRPS.Core.State;
 using ProjectRPS.Core.Systems;
 using ProjectRPS.Hubs;
@@ -50,6 +51,13 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISystem, VelocitySystem>();
         services.AddSingleton<ISystem, StateSystem>();
         services.AddSingleton<ISystem, SpawnerSystem>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddEntityBuilder(this IServiceCollection services)
+    {
+        services.AddSingleton<IEntityBuilder, EntityBuilder>();
 
         return services;
     }

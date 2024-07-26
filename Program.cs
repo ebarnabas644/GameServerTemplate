@@ -14,6 +14,7 @@ builder.Services.AddGameLoop();
 builder.Services.AddSignalRHub();
 builder.Services.AddMessageSender();
 builder.Services.AddMessageProcessors();
+builder.Services.AddEntityBuilder();
 
 var app = builder.Build();
 

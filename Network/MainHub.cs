@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using ProjectRPS.Core.Builders;
 using ProjectRPS.Core.State;
 using ProjectRPS.Hubs.MessageProcessors;
 using ProjectRPS.Hubs.Models;
@@ -10,18 +11,22 @@ public partial class MainHub : Hub
     private ILogger<MainHub> _logger;
     private IEnumerable<IMessageProcessor> _messageProcessors;
     private IGameState _gameState;
+    private IEntityBuilder _entityBuilder;
 
-    public MainHub(ILogger<MainHub> logger, IEnumerable<IMessageProcessor> messageProcessors, IGameState gameState)
+    public MainHub(ILogger<MainHub> logger, IEnumerable<IMessageProcessor> messageProcessors, IGameState gameState, IEntityBuilder entityBuilder)
     {
         _logger = logger;
         _messageProcessors = messageProcessors;
         _gameState = gameState;
+        _entityBuilder = entityBuilder;
     }
     
     public override async Task OnConnectedAsync()
     {
         var connectionId = Context.ConnectionId;
-        var id = _gameState.CreatePlayerEntity(connectionId);
+        var player = _entityBuilder.BuildPlayer(connectionId);
+        _gameState.AddEntity(player);
+        var id = player.Id;
         await Clients.Client(connectionId).SendAsync("playerCreated", id);
         _logger.LogInformation($"Player connected with id: {connectionId}");
     }
