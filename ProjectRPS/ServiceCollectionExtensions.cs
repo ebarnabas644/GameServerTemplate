@@ -51,6 +51,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISystem, VelocitySystem>();
         services.AddSingleton<ISystem, StateSystem>();
         services.AddSingleton<ISystem, SpawnerSystem>();
+        services.AddSingleton<ISystem, EnemySystem>();
 
         return services;
     }

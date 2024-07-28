@@ -21,6 +21,7 @@ public class EntityBuilder : IEntityBuilder
         entity.AddComponent("Velocity", new VelocityComponent());
         entity.AddComponent("State", new StateComponent { State = "Idle" });
         entity.AddComponent("Sprite", new SpriteComponent { Sprite = "player.png" });
+        entity.AddTag("player");
         
         if (connectionId != null)
         {
@@ -41,6 +42,7 @@ public class EntityBuilder : IEntityBuilder
         entity.AddComponent("Velocity", new VelocityComponent());
         entity.AddComponent("State", new StateComponent { State = "Idle" });
         entity.AddComponent("Sprite", new SpriteComponent { Sprite = "slime.png" });
+        entity.AddTag("mob");
 
         return entity;
     }
