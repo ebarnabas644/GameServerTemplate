@@ -1,4 +1,5 @@
-﻿using MathNet.Numerics.LinearAlgebra.Double;
+﻿using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace ProjectRPS.Core.Models;
 
@@ -19,6 +20,16 @@ public class Vector
     public void Add(Vector a)
     {
         _position = (DenseVector)_position.Add(a._position);
+    }
+
+    public double Distance(Vector a)
+    {
+        return MathNet.Numerics.Distance.Euclidean(_position, a._position);
+    }
+
+    public Vector<double> DirectionFromVector(Vector a)
+    {
+        return _position.Subtract(a._position);
     }
 
     public Vector()
