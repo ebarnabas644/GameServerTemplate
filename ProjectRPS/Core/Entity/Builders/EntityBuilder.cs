@@ -17,6 +17,8 @@ public class EntityBuilder : IEntityBuilder
         var random = new Random();
         positionComponent.Vector.X = random.Next() % 500;
         positionComponent.Vector.Y = random.Next() % 500;
+        entity.AddComponent("Health", new HealthComponent { Health = 100.0 });
+        entity.AddComponent("Hitbox", new HitboxComponent { Height = 20, Width = 20 });
         entity.AddComponent("Position", positionComponent);
         entity.AddComponent("Velocity", new VelocityComponent());
         entity.AddComponent("State", new StateComponent { State = "Idle" });

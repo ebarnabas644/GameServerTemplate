@@ -7,10 +7,12 @@ namespace ProjectRPS.Core.Systems;
 public class EnemySystem : ISystem
 {
     private readonly IGameState _gameState;
+    private readonly ILogger<EnemySystem> _logger;
     
-    public EnemySystem(IGameState gameState)
+    public EnemySystem(IGameState gameState, ILogger<EnemySystem> logger)
     {
         _gameState = gameState;
+        _logger = logger;
     }
     
     public void Process()
@@ -29,6 +31,11 @@ public class EnemySystem : ISystem
                 if (closestPlayerPositionComponent != null)
                 {
                     var vector = closestPlayerPositionComponent.Vector.DirectionFromVector(mobPositionComponent.Vector);
+                    var distance = vector.L2Norm();
+                    if (distance < 20)
+                    {
+                        _logger.LogInformation("Player hit");
+                    }
                     vector = vector.Normalize(2);
                     mobVelocityComponent.Velocity.X = vector[0];
                     mobVelocityComponent.Velocity.Y = vector[1];

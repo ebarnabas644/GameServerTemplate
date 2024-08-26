@@ -5,37 +5,37 @@ namespace ProjectRPS.Core.Models;
 
 public class Vector
 {
+    public Vector<double> Position { get; set; }
+    
     public double X
     {
-        get => _position[0];
-        set => _position[0] = value;
+        get => Position[0];
+        set => Position[0] = value;
     }
 
     public double Y
     {
-        get => _position[1];
-        set => _position[1] = value;
+        get => Position[1];
+        set => Position[1] = value;
     }
 
     public void Add(Vector a)
     {
-        _position = (DenseVector)_position.Add(a._position);
+        Position = Position.Add(a.Position);
     }
 
     public double Distance(Vector a)
     {
-        return MathNet.Numerics.Distance.Euclidean(_position, a._position);
+        return MathNet.Numerics.Distance.Euclidean(Position, a.Position);
     }
 
     public Vector<double> DirectionFromVector(Vector a)
     {
-        return _position.Subtract(a._position);
+        return Position.Subtract(a.Position);
     }
 
     public Vector()
     {
-        var a = new DenseVector(new double[] { 1, 2 });
+        Position = new DenseVector(2);
     }
-    
-    private DenseVector _position = new(new double[] { 0, 0 });
 }
